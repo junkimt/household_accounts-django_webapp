@@ -12,16 +12,49 @@ class Item(models.Model):
     https://docs.djangoproject.com/ja/2.1/ref/models/fields/
     """
 
-    cost_item_names = ['食費', '日用品', '娯楽費', '特別費']
-    cost_items = tuple((i, s) for i,s in enumerate(cost_item_names))
-
-    sample_9 = models.IntegerField(
+    select_items = ['食費', '日用品', '娯楽費', '特別費']
+    select_items = tuple((i, s) for i,s in enumerate(select_items))
+    data1 = models.IntegerField(
         verbose_name='費目',
-        choices=cost_items,
+        choices=select_items,
         blank=True,
         null=True,
     )
 
+    data2 = models.CharField(
+        verbose_name='名前',
+        max_length=20,
+        blank=True,
+        null=True,
+    )
+
+    data3 = models.IntegerField(
+        verbose_name='値段',
+        blank=True,
+        null=True,
+    )
+
+    data4 = models.CharField(
+        verbose_name='購入場所',
+        max_length=20,
+        blank=True,
+        null=True,
+    )
+
+    data5 = models.TextField(
+        verbose_name='メモ',
+        blank=True,
+        null=True,
+    )
+
+    select_items = ['わるいね', 'ふつう', 'いいね']
+    select_items = tuple((i, s) for i,s in enumerate(select_items))
+    data6 = models.IntegerField(
+        verbose_name='評価',
+        choices=select_items,
+        blank=True,
+        null=True,
+    )
 
 
 
