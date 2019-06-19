@@ -12,6 +12,21 @@ class Item(models.Model):
     https://docs.djangoproject.com/ja/2.1/ref/models/fields/
     """
 
+    cost_item_names = ['食費', '日用品', '娯楽費', '特別費']
+    cost_items = tuple((i, s) for i,s in enumerate(cost_item_names))
+
+    sample_9 = models.IntegerField(
+        verbose_name='費目',
+        choices=cost_items,
+        blank=True,
+        null=True,
+    )
+
+
+
+
+    '''
+
     # サンプル項目1 文字列
     sample_1 = models.CharField(
         verbose_name='サンプル項目1 文字列',
@@ -92,6 +107,7 @@ class Item(models.Model):
         related_name='sample_10',
         on_delete=models.SET_NULL,
     )
+    '''
 
     # 以下、管理項目
 
