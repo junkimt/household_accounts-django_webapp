@@ -12,6 +12,17 @@ class Item(models.Model):
     https://docs.djangoproject.com/ja/2.1/ref/models/fields/
     """
 
+    select_items = ['支出', '収入']
+    select_items = tuple((s, s) for s in select_items)
+    inc_or_exp = models.CharField(
+        verbose_name='費目',
+        max_length=20,
+        choices=select_items,
+        blank=True,
+        null=True,
+        default='支出',
+    )
+
     select_items = ['食費', '日用品', '娯楽費', '特別費']
     select_items = tuple((s, s) for s in select_items)
     cost_item = models.CharField(
