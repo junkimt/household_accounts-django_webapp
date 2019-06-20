@@ -43,6 +43,10 @@
                     {% for item in item_list %}
                         <li class="list-group-item">
                             {# item_detail_contents.html を参考に必要な項目を追加してください #}
+
+                            {% include "./item_detail_contents.html" %}
+                            
+                            <!--
                             <div class="row">
                                 <div class="col-5 col-sm-3">
                                     <p>1_文字列</p>
@@ -83,6 +87,8 @@
                                     <p>{{ item.created_at|date:"Y/m/d G:i:s" }}</p>
                                 </div>
                             </div>
+                            -->
+
                             <div class="row">
                                 <div class="col-12">
                                     <div class="float-right">
