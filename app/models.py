@@ -14,7 +14,7 @@ class Item(models.Model):
 
     select_items = ['食費', '日用品', '娯楽費', '特別費']
     select_items = tuple((s, s) for s in select_items)
-    data1 = models.CharField(
+    cost_item = models.CharField(
         verbose_name='費目',
         max_length=20,
         choices=select_items,
@@ -22,27 +22,27 @@ class Item(models.Model):
         null=True,
     )
 
-    data2 = models.CharField(
+    name = models.CharField(
         verbose_name='名前',
         max_length=20,
         blank=True,
         null=True,
     )
 
-    data3 = models.IntegerField(
+    price = models.IntegerField(
         verbose_name='値段',
         blank=True,
         null=True,
     )
 
-    data4 = models.CharField(
+    purchase_place = models.CharField(
         verbose_name='購入場所',
         max_length=20,
         blank=True,
         null=True,
     )
 
-    data5 = models.TextField(
+    memo = models.TextField(
         verbose_name='メモ',
         blank=True,
         null=True,
@@ -50,7 +50,7 @@ class Item(models.Model):
 
     select_items = ['わるいね', 'ふつう', 'いいね']
     select_items = tuple((i, s) for i,s in enumerate(select_items))
-    data6 = models.IntegerField(
+    evaluation = models.IntegerField(
         verbose_name='評価',
         choices=select_items,
         blank=True,
@@ -187,7 +187,7 @@ class Item(models.Model):
         """
         リストボックスや管理画面での表示
         """
-        return self.data1
+        return self.name
 
     class Meta:
         """
