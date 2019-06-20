@@ -13,9 +13,10 @@ class Item(models.Model):
     """
 
     select_items = ['食費', '日用品', '娯楽費', '特別費']
-    select_items = tuple((i, s) for i,s in enumerate(select_items))
-    data1 = models.IntegerField(
+    select_items = tuple((s, s) for s in select_items)
+    data1 = models.CharField(
         verbose_name='費目',
+        max_length=20,
         choices=select_items,
         blank=True,
         null=True,
