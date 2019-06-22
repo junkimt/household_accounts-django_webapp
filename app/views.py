@@ -2,13 +2,18 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django_filters.views import FilterView
+
+from django.shortcuts import render
 
 from .filters import ItemFilterSet
 from .forms import ItemForm
 from .models import Item
+
+import sqlite3
+import json
 
 
 # 未ログインのユーザーにアクセスを許可する場合は、LoginRequiredMixinを継承から外してください。
@@ -140,3 +145,82 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
         item.delete()
 
         return HttpResponseRedirect(self.success_url)
+
+
+########################################
+
+class AboutView(TemplateView):
+    template_name = 'app/about.html'
+
+    def get(self, request, **kwargs):
+        dbname = 'db.sqlite3'
+        query = 'SELECT * FROM app_item;'
+        conn = sqlite3.connect(dbname)
+        cursor = conn.cursor()
+        cursor.execute(query)
+
+        data = []
+        for row in cursor.fetchall():
+            x = dict(zip([d[0] for d in cursor.description], row))
+            data.append(x)
+
+        dic = {}
+        for d in data:
+            for k,v in d.items():
+                if k in dic.keys():
+                    dic[k].append(v)
+                else:
+                    dic[k] = []
+
+        conn.close()
+
+
+        #### total spend ####
+        balance = 50000
+        total_spend = sum(dic['price'])
+        dic['total_spend'] = (balance - total_spend) / balance * 100
+        #print(total_spend)
+        #print(dic['total_spend'])
+
+        #### total spend every cost item ####
+        total_spend_dic = {}
+        for d in data:
+            if not d['cost_item'] in total_spend_dic.keys():
+                total_spend_dic[d['cost_item']] = 0
+            total_spend_dic[d['cost_item']] += d['price']
+        #print(total_spend_dic)
+        #total_spend_list = [{'name':k, 'value':v} for k,v in total_spend_dic.items()]
+        total_spend_list = []
+        for k,v in total_spend_dic.items():
+            if k is None:
+                k = '入力なし'
+            total_spend_list.append({'name':k, 'value':v})
+        dic['total_spend_list'] = total_spend_list
+        #print(dic['total_spend_list'])
+
+        dic['total_spend_keys'] = list(total_spend_dic.keys())
+        dic['total_spend_values'] = list(total_spend_dic.values())
+
+        dic['json_ts'] = json.dumps(total_spend_list, indent=4, ensure_ascii=False)
+
+        dic['list_val'] = [10000, 25000]
+        dic['dict_val'] = {'a':8000, 'b':3000}
+
+        #### 日付と支出の折れ線グラフ ####
+        print(dic.keys())
+        line_graph_dic = {}
+        for d in data:
+            date = d['created_at']
+            date = date.split(' ')[0].split('-')[1:]
+            if not date[1] in line_graph_dic.keys():
+                line_graph_dic[date[1]] = 0
+            line_graph_dic[date[1]] += d['price']
+        print(line_graph_dic)
+        line_graph_list = []
+        for k,v in line_graph_dic.items():
+            line_graph_list.append({'name':k, 'value':v})
+        dic['line_graph_list'] = line_graph_list
+
+
+        #return self.render_to_response(data)
+        return render(request, self.template_name, dic)
