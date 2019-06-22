@@ -69,10 +69,19 @@ table td{
   padding: 10px 0;
 }
     </style>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css">
+    <link href="{% static "app/css/app.css" %}" rel="stylesheet">
 </head>
 <body>
 
-  <a href="{% url 'index' %}">index</a>
+  <div align="center">
+    <a class="btn btn-info" href="{% url 'index' %}">一覧表示のページへ戻る</a>
+  </div>
 
 <!-- show table -->
 <table>
