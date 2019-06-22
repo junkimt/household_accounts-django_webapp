@@ -31,45 +31,70 @@
         border-collapse: collapse;
       }
 
-table tr{
-  border-bottom: solid 2px white;
-}
+      table tr{
+        border-bottom: solid 2px white;
+      }
 
-table tr:last-child{
-  border-bottom: none;
-}
+      table tr:last-child{
+        border-bottom: none;
+      }
 
-table th{
-  position: relative;
-  text-align: left;
-  width: 30%;
-  background-color: #52c2d0;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-}
+      table th{
+        position: relative;
+        text-align: left;
+        width: 30%;
+        background-color: #52c2d0;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+      }
 
-table th:after{
-  display: block;
-  content: "";
-  width: 0px;
-  height: 0px;
-  position: absolute;
-  top:calc(50% - 10px);
-  right:-10px;
-  border-left: 10px solid #52c2d0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-}
+      table th:after{
+        display: block;
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        top:calc(50% - 10px);
+        right:-10px;
+        border-left: 10px solid #52c2d0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+      }
 
-table td{
-  text-align: left;
-  width: 70%;
-  text-align: center;
-  background-color: #eee;
-  padding: 10px 0;
-}
+      table td{
+        text-align: left;
+        width: 70%;
+        text-align: center;
+        background-color: #eee;
+        padding: 10px 0;
+      }
     </style>
+
+
+    <!--
+    <style type="text/css">
+      .swiper-container {
+        width: 100%;
+        height: 370px;
+      }
+
+      .swiper-slide {
+        padding-top: 180px;
+        /* 画像位置の調整用 */
+        text-align: center;
+        color: #fff;
+        font-size: 30px;
+      }
+    </style>
+  -->
+  <style type="text/css">
+    .swiper-container {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"

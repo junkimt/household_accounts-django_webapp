@@ -57,7 +57,6 @@
                     </tr>
                   </table>
 
-                  <p>=== {{ item.login_user_id }} ===</p>
                   <script>
                     console.log('aiueo')
                     console.log("{{ item.login_user_id }}");
@@ -65,9 +64,13 @@
 
                     {% for item in item_list %}
 
+                      <!--
                       {% if item.created_by_id == item.login_user_id %}
                         {% include "./item_detail_contents.html" %}
                       {% endif %}
+                      -->
+
+                      {% include "./item_detail_contents.html" %}
 
                         <!--
                         <li class="list-group-item">
