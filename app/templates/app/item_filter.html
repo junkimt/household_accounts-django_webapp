@@ -56,13 +56,25 @@
                       <th bgcolor="#52c2d0" width="10%">操作</th>
                     </tr>
                   </table>
+
+                  <p>=== {{ item.login_user_id }} ===</p>
+                  <script>
+                    console.log('aiueo')
+                    console.log("{{ item.login_user_id }}");
+                  </script>
+
                     {% for item in item_list %}
+
+                      {% if item.created_by_id == item.login_user_id %}
+                        {% include "./item_detail_contents.html" %}
+                      {% endif %}
+
                         <!--
                         <li class="list-group-item">
                           -->
                             {# item_detail_contents.html を参考に必要な項目を追加してください #}
 
-                            {% include "./item_detail_contents.html" %}
+
 
                             <!--
                             <div class="row">
