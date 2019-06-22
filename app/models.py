@@ -14,6 +14,13 @@ class Item(models.Model):
     https://docs.djangoproject.com/ja/2.1/ref/models/fields/
     """
 
+    date = models.DateField(
+        verbose_name='日付',
+        blank=True,
+        null=True,
+        default=datetime.now()
+    )
+
     select_items = ['支出', '収入']
     select_items = tuple((s, s) for s in select_items)
     inc_or_exp = models.CharField(
@@ -68,13 +75,6 @@ class Item(models.Model):
         choices=select_items,
         blank=True,
         null=True,
-    )
-
-    date = models.DateField(
-        verbose_name='日付',
-        blank=True,
-        null=True,
-        default=datetime.now()
     )
 
     # 以下、管理項目

@@ -14,6 +14,8 @@ from .models import Item
 
 import sqlite3
 import json
+from datetime import datetime
+import calendar
 
 
 # 未ログインのユーザーにアクセスを許可する場合は、LoginRequiredMixinを継承から外してください。
@@ -177,6 +179,7 @@ class AboutView(TemplateView):
 
         #### total spend ####
         balance = 50000
+        dic['price'] = [v for v in dic['price'] if v is not None]
         total_spend = sum(dic['price'])
         dic['total_spend'] = (balance - total_spend) / balance * 100
         #print(total_spend)
@@ -187,6 +190,8 @@ class AboutView(TemplateView):
         for d in data:
             if not d['cost_item'] in total_spend_dic.keys():
                 total_spend_dic[d['cost_item']] = 0
+            if d['price'] is None:
+                continue
             total_spend_dic[d['cost_item']] += d['price']
         #print(total_spend_dic)
         #total_spend_list = [{'name':k, 'value':v} for k,v in total_spend_dic.items()]
@@ -206,20 +211,56 @@ class AboutView(TemplateView):
         dic['list_val'] = [10000, 25000]
         dic['dict_val'] = {'a':8000, 'b':3000}
 
-        #### 日付と支出の折れ線グラフ ####
-        print(dic.keys())
+        #### 日付と支出の折れ線グラフ ###
         line_graph_dic = {}
         for d in data:
-            date = d['created_at']
-            date = date.split(' ')[0].split('-')[1:]
-            if not date[1] in line_graph_dic.keys():
-                line_graph_dic[date[1]] = 0
-            line_graph_dic[date[1]] += d['price']
-        print(line_graph_dic)
+            date = d['date']
+            if date is None:
+                continue
+            date = date.split('-')
+            year_day_key = '{0}-{1}'.format(date[0], date[1])
+            year_day_key = int(date[2])
+            if not year_day_key in line_graph_dic.keys():
+                line_graph_dic[year_day_key] = 0
+            if d['price'] is None:
+                continue
+            line_graph_dic[year_day_key] += d['price']
         line_graph_list = []
         for k,v in line_graph_dic.items():
             line_graph_list.append({'name':k, 'value':v})
         dic['line_graph_list'] = line_graph_list
+        print('==========aiueo')
+        print(dic['line_graph_list'])
+
+        line_graph_list_2 = []
+        for k,v in line_graph_dic.items():
+            line_graph_list_2.append([k, v])
+        dic['line_graph_list_2'] = line_graph_list_2
+
+        #### 日付と支出の折れ線グラフ every month ###
+        line_graph_dic = {}
+        for d in data:
+            date = d['date']
+            if date is None:
+                continue
+            date = [int(s) for s in date.split('-')]
+            #year_month_key = '{0}年 {1}月'.format(date[0], date[1])
+            year_month_key = 'ym-{0}-{1}'.format(date[0], date[1])
+            day = int(date[2])
+            if not year_month_key in line_graph_dic.keys():
+                _, month_day = calendar.monthrange(date[0], date[1])
+                line_graph_dic[year_month_key] = [[i, 0] for i in range(month_day+1)]
+            if d['price'] is None:
+                continue
+            print('-----', year_month_key, day)
+            print(day, line_graph_dic[year_month_key][day], len(line_graph_dic[year_month_key]))
+            line_graph_dic[year_month_key][day][1] += d['price']
+
+        print('=====')
+        print(line_graph_dic)
+
+        dic['line_graph_dic_every_month'] = line_graph_dic
+
 
 
         #return self.render_to_response(data)

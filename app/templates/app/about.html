@@ -134,7 +134,6 @@ table td{
         {"name": "{{ d.name }}", "value": {{ d.value }}},
       {% endfor %}
     ]
-    console.log(dataset)
 
 
     var width = parseInt(window.innerWidth * 0.5); // グラフの幅
@@ -203,114 +202,43 @@ table td{
 </td>
 </table>
 
-<!-- 折れ線グラフ -->
-<table>
-  <td>
-<script>
-  // 1. データの準備
-  /*
-  var dataset = [
-    [5, 20],
-    [25, 67],
-    [85, 21],
-    [100, 33],
-    [220, 88],
-    [250, 50],
-    [330, 95],
-    [410, 12],
-    [475, 44],
-    [480, 90]
-  ];
-  */
-
-  var dataset = [
-    {% for d in line_graph_list %}
-      [{{ d.name }}, {{ d.value }}],
-    {% endfor %}
-  ]
-  console.log(dataset)
-
-  /*
-  var width = 400; // グラフの幅
-  var height = 300; // グラフの高さ
-  */
-  var width = parseInt(window.innerWidth * 0.9); // グラフの幅
-  var height = parseInt(width * 0.4); // グラフの高さ
-  var margin = { "top": 30, "bottom": 60, "right": 30, "left": 60 };
-
-  // 2. SVG領域の設定
-  var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
-
-  // 3. 軸スケールの設定
-  /*
-  var xScale = d3.scaleLinear()
-    .domain([0, d3.max(dataset, function(d) { return d[0]; })])
-    .range([margin.left, width - margin.right]);
-  */
-  var xScale = d3.scaleLinear()
-    .domain([0, 31])
-    .range([margin.left, width - margin.right]);
-
-  var yScale = d3.scaleLinear()
-    .domain([0, d3.max(dataset, function(d) { return d[1]; })])
-    .range([height - margin.bottom, margin.top]);
-
-  // 4. 軸の表示
-  var axisx = d3.axisBottom(xScale).ticks(5);
-  var axisy = d3.axisLeft(yScale).ticks(5);
-
-
-  svg.append("g")
-    .attr("transform", "translate(" + 0 + "," + (height - margin.bottom) + ")")
-    .call(axisx)
-    .append("text")
-    .attr("fill", "black")
-    .attr("x", (width - margin.left - margin.right) / 2 + margin.left)
-    .attr("y", 35)
-    .attr("text-anchor", "middle")
-    .attr("font-size", "10pt")
-    .attr("font-weight", "bold")
-    .text("Date");
-
-
-  svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + 0 + ")")
-    .call(axisy)
-    .append("text")
-    .attr("fill", "black")
-    .attr("text-anchor", "middle")
-    .attr("x", -(height - margin.top - margin.bottom) / 2 - margin.top)
-    .attr("y", -35)
-    .attr("transform", "rotate(-90)")
-    .attr("font-weight", "bold")
-    .attr("font-size", "10pt")
-    .text("yen");
-
-  // 5. ラインの表示
-  svg.append("path")
-    .datum(dataset)
-    .attr("fill", "none")
-    .attr("stroke", "steelblue")
-    .attr("stroke-width", 1.5)
-    .attr("d", d3.line()
-      .x(function(d) { return xScale(d[0]); })
-      .y(function(d) { return yScale(d[1]); }));
-  </script>
-
-  </td>
-  </table>
-
 <!-- slider -->
 <!-- Slider main container -->
     <div class="swiper-container">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
       <!-- Slides -->
-      <div class="swiper-slide" id="slide1">
-        Slide 1 with liquidFillGauge
+
+      <script src="{% static 'app/js/lineGraph.js' %}" language="JavaScript"></script>
+      {% for k,v in line_graph_dic_every_month.items %}
+
+      <div class="swiper-slide" id="{{ k }}">
+
+        <h3 class="swiper-slide-title" id="{{ k }}" align="center"></h3>
+
+        <script>
+          var title_str = "{{ k }}"
+          title_str = title_str.split('-');
+          title_str = title_str[1] + "年 " + title_str[2] + "年"
+          document.write('<h3 align="center">' + title_str + '</h3>')
+          /*
+          window.onload=function() {
+            var $replacement = document.getElementsByClassName( "swiper-slide-title" );
+            for (i = 0; i < $replacement.length; i++) {
+              $replacement[i].getElementById("{{k}}").innerHTML = title_str;
+            }
+          }
+          */
+        </script>
+
+
+        <script>
+          showLineGraph({{ v }}, "{{ k }}")
+        </script>
       </div>
-      <div class="swiper-slide" id="slide2">Slide 2</div>
-      <div class="swiper-slide" id="slide3">Slide 3</div>
+
+      {% endfor %}
+
     </div>
     <!-- If we need pagination -->
     <div class="swiper-pagination"></div>
@@ -324,6 +252,8 @@ table td{
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/js/swiper.min.js"></script>
   <script>
+
+    /*
     var mySwiper = new Swiper ('.swiper-container', {
       // Optional parameters
       direction: 'horizontal',
@@ -332,6 +262,18 @@ table td{
         delay: 3000,
         disableOnInteraction: true
       },
+
+      // Navigation arrows
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    */
+    var mySwiper = new Swiper ('.swiper-container', {
+      // Optional parameters
+      direction: 'horizontal',
+      loop: true,
 
       // Navigation arrows
       navigation: {
