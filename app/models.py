@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 from users.models import User
@@ -68,6 +70,12 @@ class Item(models.Model):
         null=True,
     )
 
+    date = models.DateField(
+        verbose_name='日付',
+        blank=True,
+        null=True,
+        default=datetime.now()
+    )
 
     # 以下、管理項目
 
