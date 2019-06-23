@@ -262,6 +262,17 @@ class AboutView(TemplateView):
         dic['line_graph_dic_every_month'] = line_graph_dic
 
 
+        ########
+        total_spend = sum([d['value'] for d in total_spend_list])
+        total_spend_rate_list = []
+        for d in total_spend_list:
+            total_spend_rate_list.append(
+                    {'name':d['name'], 'value':int(d['value'] / total_spend * 100)}
+                    )
+        dic['total_spend_rate_list'] = total_spend_rate_list
+
+
+
 
         #return self.render_to_response(data)
         return render(request, self.template_name, dic)
