@@ -1,6 +1,4 @@
-function showLineGraph (line_graph, id) {
-
-  var dataset = line_graph
+function showLineGraph (dataset, html_tag, html_class) {
 
   var width = parseInt(window.innerWidth * 0.9); // グラフの幅
   //var height = parseInt(width * 0.4); // グラフの高さ
@@ -14,8 +12,8 @@ function showLineGraph (line_graph, id) {
   }
 
   // 2. SVG領域の設定
-  var id_str = "#" + id;
-  var svg = d3.select(id_str).append("svg").attr("width", width).attr("height", height);
+  var selector_str = html_tag + "." + html_class;
+  var svg = d3.select(selector_str).append("svg").attr("width", width).attr("height", height);
 
   // 3. 軸スケールの設定
   /*
