@@ -4,14 +4,15 @@
 <html>
 <head lang="ja">
   <meta charset="UTF-8">
+
   <title></title>
+
   <script src="{% static 'app/js/liquidFillGauge.js' %}" language="JavaScript"></script>
-  <style>
-    .liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
-  </style>
+  <script src="{% static 'app/js/lineGraph.js' %}"   language="JavaScript"></script>
+  <script src="{% static 'app/js/circleGraph.js' %}" language="JavaScript"></script>
+  <script src="https://d3js.org/d3.v5.min.js" language="JavaScript"></script>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/css/swiper.min.css">
-
-
   <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -27,26 +28,127 @@
 
 
 
-  <br>
+<br>
 
-  <table>
-    <tr>
-      <td>
-        <div align="left">
-          <h3>　グラフで家計簿データを見る</h3>
+<table width="100%">
+  <tr>
+    <td>
+      <div align="left">
+        <h3>　グラフで家計簿データを見る</h3>
+      </div>
+    </td>
+    <td>
+      <div align="right">
+        <a class="btn btn-info" href="{% url 'index' %}">一覧表示のページへ戻る</a>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<!-- slider -->
+
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+
+      <!-- 月ごとのデータを可視化 -->
+      {% for year_month in day_exp.keys %}
+
+      <div class="swiper-slide">
+
+        <!-- 月ごとのタイトル -->
+        <h3 id="h3-ym-slider-title-{{ year_month }}" align="center"></h3>
+
+        <hr>
+
+        <!-- 日毎の使用金額を折れ線グラフで可視化 -->
+        <div class="line-graph-{{ year_month }}"></div>
+
+        <br>
+        <hr>
+        <br>
+
+        <!-- 費目ごとの合計金額の割合を円グラフで可視化 -->
+        <div>
+          <div class="circle-graph-{{ year_month }}"></div>
         </div>
-      </td>
-      <td>
-        <div align="right">
-          <a class="btn btn-info" href="{% url 'index' %}">一覧表示のページへ戻る</a>
+
+        <br>
+        <hr>
+        <br>
+
+        <!-- 費目ごとの合計金額を表形式で表示 -->
+        <div>
+          <table id="table-total-costitem-{{ year_month }}"></table>
         </div>
-      </td>
-    </tr>
-  </table>
+
+      </div>
+
+      {% endfor %}
+
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-scrollbar"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/js/swiper.min.js"></script>
+<script>
+  var mySwiper = new Swiper ('.swiper-container', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: false,
+
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
+</script>
 
 
+<!-- データベースからのデータを可視化 -->
 
+<!-- グラフ可視化 -->
 
+{% for k,v in day_accum_exp.items %}
+<script>
+  showLineGraph({{ v }}, "div", "line-graph-{{ k }}")
+</script>
+{% endfor %}
+
+{% for k,v in costitem_rate_exp.items %}
+<script>
+  var dataset = [
+    {% for d in v %}
+      {"name": "{{ d.name }} {{ d.value }}%", "value": {{ d.value }}},
+      {% endfor %}
+    ]
+  showCircleGraph(dataset, "div", "circle-graph-{{ k }}");
+</script>
+{% endfor %}
+
+<!-- テキスト表示 -->
+{% for k in day_exp.keys %}
+<script>
+  var title_str = "{{ k }}";
+  title_str = title_str.split('-');
+  title_str = title_str[0] + "年 " + title_str[1] + "月";
+  document.getElementById("h3-ym-slider-title-{{ k }}").innerHTML = title_str;
+</script>
+{% endfor %}
+
+<script>
+{% for k,li in costitem_exp.items %}
+var s = "";
+{% for d in li %}
+  s += "<tr><th>{{ d.name }}</th><td>{{ d.value }}円</td></tr>"
+{% endfor %}
+  document.getElementById("table-total-costitem-{{ k }}").innerHTML = s;
+{% endfor %}
+</script>
 
 
 
