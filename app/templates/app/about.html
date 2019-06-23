@@ -105,10 +105,24 @@
 </head>
 <body>
 
-  <div align="center">
-    <a class="btn btn-info" href="{% url 'index' %}">一覧表示のページへ戻る</a>
-  </div>
+  <br>
 
+  <table>
+    <tr>
+      <td>
+        <div align="left">
+          <h3>　グラフで家計簿データを見る</h3>
+        </div>
+      </td>
+      <td>
+        <div align="right">
+          <a class="btn btn-info" href="{% url 'index' %}">一覧表示のページへ戻る</a>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <hr>
 
   <!-- slider -->
   <script src="https://d3js.org/d3.v5.min.js" language="JavaScript"></script>
@@ -128,7 +142,7 @@
           <script>
             var title_str = "{{ k }}"
             title_str = title_str.split('-');
-            title_str = title_str[1] + "年 " + title_str[2] + "年"
+            title_str = title_str[1] + "年 " + title_str[2] + "月"
             document.write('<h3 align="center">' + title_str + '</h3>')
             /*
             window.onload=function() {
