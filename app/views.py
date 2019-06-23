@@ -16,6 +16,7 @@ import sqlite3
 import json
 from datetime import datetime
 import calendar
+from copy import deepcopy
 import pandas as pd
 import numpy as np
 
@@ -200,6 +201,15 @@ class AboutView(TemplateView):
             day_exp[k_ym][int(k_d)][1] = v
         dic['day_exp'] = day_exp
         #print(day_exp)
+
+        ## １日ごとの累積使用金額を取得
+        day_accum_exp = deepcopy(day_exp)
+        for k,v in day_exp.items():
+            accum = 0
+            for idx, vv in enumerate(v):
+                accum += vv[1]
+                day_accum_exp[k][idx][1] = accum
+        dic['day_accum_exp'] = day_accum_exp
 
         ## 各費目ごとの使用金額を取得
         costitem_exp_sum = dict(exp_df.groupby(['year_month', 'cost_item'])['price'].sum())
