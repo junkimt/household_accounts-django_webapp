@@ -173,7 +173,7 @@ class AboutView(TemplateView):
         conn.close()
 
         # 日付データから年月，日のデータの列を追加
-        year_months = [' '.join(s.split('-')[:2]) for s in df['date']]
+        year_months = ['-'.join(s.split('-')[:2]) for s in df['date']]
         df['year_month'] = year_months
         days = [s.split('-')[2] for s in df['date']]
         df['day'] = days
@@ -190,7 +190,7 @@ class AboutView(TemplateView):
 
         ## 一日ごとの使用金額を取得
         # 各月が何日あるか取得
-        int_year_months = {k:[int(s) for s in k.split(' ')] for k in year_month_keys}
+        int_year_months = {k:[int(s) for s in k.split('-')] for k in year_month_keys}
         month_ranges = {k: calendar.monthrange(li[0], li[1])[1] for k,li in int_year_months.items()}
         # 各日の合計金額を算出
         day_exp_sum = dict(exp_df.groupby(['year_month', 'day'])['price'].sum())
