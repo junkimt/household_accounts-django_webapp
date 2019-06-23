@@ -16,6 +16,8 @@ import sqlite3
 import json
 from datetime import datetime
 import calendar
+import pandas as pd
+import numpy as np
 
 
 # 未ログインのユーザーにアクセスを許可する場合は、LoginRequiredMixinを継承から外してください。
@@ -155,122 +157,67 @@ class AboutView(TemplateView):
     template_name = 'app/about.html'
 
     def get(self, request, **kwargs):
+
+        # about.html へ渡す変数の辞書
+        dic = {}
+
+        # sqliteにクエリ送信しデータ取得
         dbname = 'db.sqlite3'
         query = 'SELECT * FROM app_item;'
         conn = sqlite3.connect(dbname)
         cursor = conn.cursor()
         cursor.execute(query)
 
-        data = []
-        for row in cursor.fetchall():
-            x = dict(zip([d[0] for d in cursor.description], row))
-            data.append(x)
-
-        dic = {}
-        for d in data:
-            for k,v in d.items():
-                if k in dic.keys():
-                    dic[k].append(v)
-                else:
-                    dic[k] = []
-
+        # sqlite3からpandasのDataframeとしてデータを取得
+        df = pd.read_sql(query, conn)
         conn.close()
 
+        # 日付データから年月，日のデータの列を追加
+        year_months = [' '.join(s.split('-')[:2]) for s in df['date']]
+        df['year_month'] = year_months
+        days = [s.split('-')[2] for s in df['date']]
+        df['day'] = days
 
-        #### total spend ####
-        balance = 50000
-        dic['price'] = [v for v in dic['price'] if v is not None]
-        total_spend = sum(dic['price'])
-        dic['total_spend'] = (balance - total_spend) / balance * 100
-        #print(total_spend)
-        #print(dic['total_spend'])
-
-        #### total spend every cost item ####
-        total_spend_dic = {}
-        for d in data:
-            if not d['cost_item'] in total_spend_dic.keys():
-                total_spend_dic[d['cost_item']] = 0
-            if d['price'] is None:
-                continue
-            total_spend_dic[d['cost_item']] += d['price']
-        #print(total_spend_dic)
-        #total_spend_list = [{'name':k, 'value':v} for k,v in total_spend_dic.items()]
-        total_spend_list = []
-        for k,v in total_spend_dic.items():
-            if k is None:
-                k = '入力なし'
-            total_spend_list.append({'name':k, 'value':v})
-        dic['total_spend_list'] = total_spend_list
-        #print(dic['total_spend_list'])
-
-        dic['total_spend_keys'] = list(total_spend_dic.keys())
-        dic['total_spend_values'] = list(total_spend_dic.values())
-
-        dic['json_ts'] = json.dumps(total_spend_list, indent=4, ensure_ascii=False)
-
-        dic['list_val'] = [10000, 25000]
-        dic['dict_val'] = {'a':8000, 'b':3000}
-
-        #### 日付と支出の折れ線グラフ ###
-        line_graph_dic = {}
-        for d in data:
-            date = d['date']
-            if date is None:
-                continue
-            date = date.split('-')
-            year_day_key = '{0}-{1}'.format(date[0], date[1])
-            year_day_key = int(date[2])
-            if not year_day_key in line_graph_dic.keys():
-                line_graph_dic[year_day_key] = 0
-            if d['price'] is None:
-                continue
-            line_graph_dic[year_day_key] += d['price']
-        line_graph_list = []
-        for k,v in line_graph_dic.items():
-            line_graph_list.append({'name':k, 'value':v})
-        dic['line_graph_list'] = line_graph_list
-        print('==========aiueo')
-        print(dic['line_graph_list'])
-
-        line_graph_list_2 = []
-        for k,v in line_graph_dic.items():
-            line_graph_list_2.append([k, v])
-        dic['line_graph_list_2'] = line_graph_list_2
-
-        #### 日付と支出の折れ線グラフ every month ###
-        line_graph_dic = {}
-        for d in data:
-            date = d['date']
-            if date is None:
-                continue
-            date = [int(s) for s in date.split('-')]
-            #year_month_key = '{0}年 {1}月'.format(date[0], date[1])
-            year_month_key = 'ym-{0}-{1}'.format(date[0], date[1])
-            day = int(date[2])
-            if not year_month_key in line_graph_dic.keys():
-                _, month_day = calendar.monthrange(date[0], date[1])
-                line_graph_dic[year_month_key] = [[i, 0] for i in range(month_day+1)]
-            if d['price'] is None:
-                continue
-            print('-----', year_month_key, day)
-            print(day, line_graph_dic[year_month_key][day], len(line_graph_dic[year_month_key]))
-            line_graph_dic[year_month_key][day][1] += d['price']
-
-        print('=====')
-        print(line_graph_dic)
-
-        dic['line_graph_dic_every_month'] = line_graph_dic
+        # 支出と収入のデータを分割
+        inc_df = df[df['inc_or_exp']=='収入']
+        exp_df = df[df['inc_or_exp']=='支出']
 
 
-        ########
-        total_spend = sum([d['value'] for d in total_spend_list])
-        total_spend_rate_list = []
-        for d in total_spend_list:
-            total_spend_rate_list.append(
-                    {'name':d['name'], 'value':int(d['value'] / total_spend * 100)}
-                    )
-        dic['total_spend_rate_list'] = total_spend_rate_list
+        #### about.htmlで必要なデータを各月ごとに取得 ####
 
+        year_month_keys = list(set(exp_df['year_month']))
+        costitem_keys = list(set(exp_df['cost_item']))
+
+        ## 一日ごとの使用金額を取得
+        # 各月が何日あるか取得
+        int_year_months = {k:[int(s) for s in k.split(' ')] for k in year_month_keys}
+        month_ranges = {k: calendar.monthrange(li[0], li[1])[1] for k,li in int_year_months.items()}
+        # 各日の合計金額を算出
+        day_exp_sum = dict(exp_df.groupby(['year_month', 'day'])['price'].sum())
+        # 該当する月の全日のデータを作成
+        day_exp = {k:[[i,0] for i in range(v+1)] for k,v in month_ranges.items()}
+        for (k_ym, k_d),v in day_exp_sum.items():
+            day_exp[k_ym][int(k_d)][1] = v
+        dic['day_exp'] = day_exp
+        #print(day_exp)
+
+        ## 各費目ごとの使用金額を取得
+        costitem_exp_sum = dict(exp_df.groupby(['year_month', 'cost_item'])['price'].sum())
+        costitem_exp = {k:[] for k in year_month_keys}
+        for (k_ym, ci),v in costitem_exp_sum.items():
+            costitem_exp[k_ym].append({'name':ci, 'value':v})
+        dic['costitem_exp'] = costitem_exp
+        #print(costitem_exp)
+
+        ## 各費目ごとの使用金額の割合を取得
+        costitem_rate_exp = {k:[] for k in year_month_keys}
+        for k,v in costitem_exp.items():
+            total_exp = sum([d['value'] for d in v])
+            for d in v:
+                costitem_rate_exp[k].append(
+                        {'name':d['name'], 'value':round(d['value'] / total_exp * 100)})
+        dic['costitem_rate_exp'] = costitem_rate_exp
+        #print(costitem_rate_exp)
 
 
 
