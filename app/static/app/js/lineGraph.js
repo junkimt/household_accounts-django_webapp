@@ -1,7 +1,5 @@
 function showLineGraph (line_graph, id) {
 
-  console.log('in showLineGraph')
-
   var dataset = line_graph
 
   var width = parseInt(window.innerWidth * 0.9); // グラフの幅
@@ -26,7 +24,6 @@ function showLineGraph (line_graph, id) {
     .range([margin.left, width - margin.right]);
   */
 
-  console.log(maxYenDataset)
   var xScale = d3.scaleLinear()
     .domain([0, 31])
     .range([margin.left, width - margin.right]);
@@ -75,5 +72,6 @@ function showLineGraph (line_graph, id) {
     .attr("d", d3.line()
       .x(function(d) { return xScale(d[0]); })
       .y(function(d) { return yScale(d[1]); }));
+
 
 }
