@@ -1,6 +1,6 @@
-function showCircleGraph (dataset, tag_str, class_str) {
+function showCircleGraph (dataset, html_tag, html_class) {
 
-  var selector_str = tag_str + "." + class_str;
+  var selector_str = html_tag + "." + html_class;
 
 
   var width = parseInt(window.innerWidth * 1.0); // グラフの幅
