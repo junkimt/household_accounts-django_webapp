@@ -59,7 +59,7 @@ function showLineGraph (dataset, html_tag, html_class) {
     .attr("transform", "rotate(-90)")
     .attr("font-weight", "bold")
     .attr("font-size", "10pt")
-    .text("１日ごとの使用金額");
+    .text("１日ごとの使用金額の合計");
 
   // 5. ラインの表示
   svg.append("path")
