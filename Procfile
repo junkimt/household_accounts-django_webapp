@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath app --log-file -
+web: gunicorn front_processing:app --log-file -
