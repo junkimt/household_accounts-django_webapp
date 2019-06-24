@@ -19,7 +19,73 @@
         crossorigin="anonymous">
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css">
-  <link href="{% static "app/css/app.css" %}" rel="stylesheet">
+
+  <style>
+    /* swiper-slide */
+    .swiper-container {
+      width: 100%;
+      height: 1500px;
+    }
+
+
+    /* table */
+    table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-left:auto;
+    margin-right:auto;
+    }
+
+    table.wid-50{
+    width: 50%;
+    border-collapse: collapse;
+    margin-left:auto;
+    margin-right:auto;
+    }
+
+    table tr{
+    border-bottom: solid 2px white;
+    }
+
+    table tr:last-child{
+    border-bottom: none;
+    }
+
+    table th{
+    position: relative;
+    text-align: left;
+    width: 30%;
+    background-color: #52c2d0;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    }
+
+    table th:after{
+    display: block;
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top:calc(50% - 10px);
+    right:-10px;
+    border-left: 10px solid #52c2d0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    }
+
+    table td{
+    text-align: left;
+    width: 70%;
+    text-align: center;
+    background-color: #eee;
+    padding: 10px 0;
+    }
+  </style>
+
+
+
+
 </head>
 
 
@@ -30,7 +96,7 @@
 
 <br>
 
-<table width="100%">
+<table>
   <tr>
     <td>
       <div align="left">
@@ -80,7 +146,7 @@
 
         <!-- 費目ごとの合計金額を表形式で表示 -->
         <div>
-          <table id="table-total-costitem-{{ year_month }}"></table>
+          <table id="table-total-costitem-{{ year_month }}" class="wid-50"></table>
         </div>
 
       </div>
@@ -123,7 +189,8 @@
 <script>
   var dataset = [
     {% for d in v %}
-      {"name": "{{ d.name }} {{ d.value }}%", "value": {{ d.value }}},
+      //{"name": "{{ d.name }} {{ d.value }}%", "value": {{ d.value }}},
+      {"name": "{{ d.name }}", "value": {{ d.value }}},
       {% endfor %}
     ]
   showCircleGraph(dataset, "div", "circle-graph-{{ k }}");
