@@ -204,24 +204,3 @@ except ImportError:
 if not DEBUG:
     import django_heroku
     django_heroku.settings(locals())
-
-
-##################################
-#参考：https://qiita.com/anzunba/items/9fda44629086c696e652
-##################################
-
-import dj_database_url
-DATABASES['default'] = dj_database_url.config()
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-ALLOWED_HOSTS = ['*']
-
-STATIC_ROOT = 'staticfiles'
-
-DEBUG = False
-
-try:
-    from .local_settings import *
-except ImportError:
-    pass
