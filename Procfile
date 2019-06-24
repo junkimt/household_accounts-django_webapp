@@ -1,1 +1,1 @@
-web: gunicorn instant-django.wsgi --log-file -
+web: gunicorn household-accounts-app.wsgi --log-file -
