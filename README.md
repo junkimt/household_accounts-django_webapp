@@ -17,7 +17,7 @@ MacOS/Linux用準備コマンド
 4. source kakeibo/bin/activate
 5. pip install -r requirements.txt
 6. python manage.py runserver
-7. ブラウザで`http://127.0.0.1:8000/about/`にアクセス
+7. ブラウザで`http://127.0.0.1:8000`にアクセス
 
 
 ## 機能紹介
