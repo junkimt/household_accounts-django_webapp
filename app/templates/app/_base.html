@@ -15,11 +15,34 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css">
     <link href="{% static "app/css/app.css" %}" rel="stylesheet">
+
+    <style>
+      h3{
+        position: relative;
+        text-align: left;
+        width: 100%;
+        background-color: #52c2d0;
+        color: white;
+        text-align: center;
+        padding: 30px 0;
+      }
+    </style>
+
+
 </head>
 
 <body>
+
+<br>
+
+<div align="center">
+  <img src="{% static 'app/img/freefont_logo_roundedmplus2cblack.png' %}" alt="">
+</div>
+
+<br>
+
 <nav class="navbar navbar-expand-md navbar-light bg-light ">
-    <a class="navbar-brand" href="#">家計簿アプリ</a>
+    <a class="navbar-brand" href="#"></a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber"
             aria-expanded="false"
             aria-label="ナビゲーションの切替">
@@ -38,6 +61,14 @@
         </ul>
     </div>
 </nav>
+
+<br>
+
+<h3>家計簿を入力する</h3>
+
+<br>
+
+
 
 
 {% block content %}
