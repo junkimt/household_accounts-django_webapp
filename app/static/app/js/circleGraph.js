@@ -5,7 +5,7 @@ function showCircleGraph (dataset, html_tag, html_class) {
 
   var width = parseInt(window.innerWidth * 1.0); // グラフの幅
   //var height = parseInt(width * 0.75); // グラフの高さ
-  var height = 500;
+  var height = 350;
 
   var radius = Math.min(width, height) / 2 - 10;
 
@@ -18,8 +18,7 @@ function showCircleGraph (dataset, html_tag, html_class) {
 
   // 3. カラーの設定
   var color = d3.scaleOrdinal()
-    .range(["#DC3912", "#3366CC", "#109618", "#FF9900", "#990099"]);
-
+    .range(["#ec7b7d", "#FDC168", "#91d1be", "#768FDf"]);
   // 4. pieチャートデータセット用関数の設定
   var pie = d3.pie()
     .value(function(d) { return d.value; })
@@ -50,11 +49,11 @@ function showCircleGraph (dataset, html_tag, html_class) {
 
 
   pieGroup.append("text")
-    .attr("fill", "white")
+    .attr("fill", "black")
     .attr("transform", function(d) { return "translate(" + text.centroid(d) + ")"; })
     .attr("dy", "5px")
     .attr("font", "10px")
-    .attr("font-size", "20px")
+    .attr("font-size", "15px")
     .attr("text-anchor", "middle")
     .text(function(d) { return d.data.name; });
 
