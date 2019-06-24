@@ -1,1 +1,1 @@
-web: gunicorn --env DJANGO_SETTINGS_MODULE=app.settings app.wsgi --log-file -
+web: gunicorn --env DJANGO_SETTINGS_MODULE=instant-django.settings instant-django.wsgi --log-file -
