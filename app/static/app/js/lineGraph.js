@@ -1,9 +1,9 @@
 function showLineGraph (dataset, html_tag, html_class) {
 
-  var width = parseInt(window.innerWidth * 0.9); // グラフの幅
+  var width = parseInt(window.innerWidth * 1.0); // グラフの幅
   //var height = parseInt(width * 0.4); // グラフの高さ
   var height = 350
-  var margin = { "top": 30, "bottom": 60, "right": 10, "left": 130 };
+  var margin = { "top": 30, "bottom": 60, "right": 80, "left": 150 };
 
   var maxYenDefault = 50000
   var maxYenDataset = d3.max(dataset, function(d) { return d[1]; })

@@ -54,7 +54,7 @@ function showCircleGraph (dataset, html_tag, html_class) {
     .attr("transform", function(d) { return "translate(" + text.centroid(d) + ")"; })
     .attr("dy", "5px")
     .attr("font", "10px")
-    .attr("font-size", "15px")
+    .attr("font-size", "20px")
     .attr("text-anchor", "middle")
     .text(function(d) { return d.data.name; });
 
