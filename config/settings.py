@@ -25,7 +25,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = '_(u)&e-3076d7_a(gfhb85*)u-u4vwc%#qt7c7q3-t98%lvp&g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['household-accounts-app.herokuapp.com']
 
@@ -195,7 +195,6 @@ LOGGING = {
 ##################################
 #参考：https://qiita.com/okoppe8/items/76cdb202eb15aab566d1
 ##################################
-DEBUG = False
 
 try:
     from .local_settings import *
