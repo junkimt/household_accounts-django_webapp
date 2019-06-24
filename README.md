@@ -1,49 +1,75 @@
-instant-django
-====
+# KAKEIBO（家計簿アプリ）
 
-簡単なCRUD操作を行うDjangoのアプリケーションです。
-モデル(app/models.py)の編集とマイグレーション、データ表示の変更だけで自分用のアプリケーションとして使うことができます。
-使い方等は以下の記事を参照してください。
+## 概要
+家計簿データ（日付，費目，名前，値段）などを入力・編集可能なDjangoのアプリケーションです。
+また，月ごとに「毎日どれくらいお金を使っているか」，「費目ごとにどれくらいの割合でお金を使っているか」をグラフで表示したページを作成しました。
 
-[Qiita: [Python] テンプレートアプリを使った業務用Webアプリケーション高速開発法の紹介【チュートリアル形式】](https://qiita.com/okoppe8/items/4cc0f87ea933749f5a49)
+## 機能紹介
 
+### トップページ
 
-Instant-django is a practical sample project of Django.
+![トップページ](./imgs/top_page.png)
 
-Instant-django has a sample model and basic CRUD views.
+家計簿を入力するページです。
+1ページに最新の10個のデータを表示し，それ以外のデータは次のページに表示されます。
 
-You can complete a simple CRUD WebApp with a few edits and commands.
+### 前のページ，次のページ
+
+- ページの遷移を実行します。
+
+![ページを移動した結果](./imgs/top_page_2.png)
+
+### 新規
+
+- 家計簿データを新規作成します。
+
+  ![登録・更新ページ](./imgs/register_page.png)
+
+### 検索
+
+- 入力されている家計簿データから絞り込みして表示ができます。
+
+  ![検索ページ](./imgs/search_page.png)
+
+  ![検索条件の入力](./imgs/search_condition.png)
+
+  ![検索結果の表示](./imgs/search_result.png)
+
+### 削除
+
+- 入力されている家計簿データを削除できます。
+
+  ![削除](./imgs/delete_page.png)
+
+### 月ごとにグラフで見る
+
+- 新しいページで家計簿データを月ごとにグラフで見ることができます。
+
+- 毎日どれくらい使っているか
+
+  - 日毎にどれくらいお金を使っているかを見ることができます。
+  - 大きな出費を出した日を把握することができます。
+
+- 費目ごとにどれくらい使っているか
+
+  - お金の使い方に偏りがあるかどうか確認できます。
+  - どの費目にどれくらい使いたいかの目安を考えることができます。
+
+- 月ごとにグラフを表示
+
+  ![月ごとにグラフで見る 2019年04月](./imgs/visualization_page_1.png)
+
+  ![月ごとにグラフで見る 2019年05月](./imgs/visualization_page_2.png)
+
+  ![月ごとにグラフで見る 2019年06月](./imgs/visualization_page_3.png)
 
 ## Requirement
 
-```
-Django==2.1.1
+Django==2.1.2
 django-crispy-forms==1.7.2
 django-filter==2.0.0
 pytz==2018.5
-```
+pandas==0.23.4
 
-## Usage
-
-Steps
-
-1. Git clone this project
-2. Edit modelfile `app/models.py`
-3. Run `makemigrations` and `migrate`
-4. Edit HTML files `templates/item_filter.html` and `item_detail_contents.html`
-
-If you use it production environment, you must replace `settings.SECRET_KEY`.
-
-## Contribution
-
-I wrote this for Japanese python beginners.
-
-I would appreciate if you clone this project and replace japanese code with your language for your country's python beginners.
-
-## Licence
-
-[WTFPL](http://www.wtfpl.net/txt/copying/)
-
-## Author
-
-Kawase Tomohiro
+## 参考
+[okoppe8/instant-django](https://github.com/okoppe8/instant-django) をベースにプログラムを作成。
