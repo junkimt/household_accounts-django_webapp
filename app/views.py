@@ -186,12 +186,15 @@ class AboutView(TemplateView):
 
         #### about.htmlで必要なデータを各月ごとに取得 ####
 
-        year_month_keys = list(set(exp_df['year_month']))
+        year_month_keys = sorted(list(set(exp_df['year_month'])))
+        int_year_months = {k:[int(s) for s in k.split('-')] for k in year_month_keys}
+
+        dic['nb_swiper_slider'] = len(year_month_keys) - 1
+
         costitem_keys = list(set(exp_df['cost_item']))
 
         ## 一日ごとの使用金額を取得
         # 各月が何日あるか取得
-        int_year_months = {k:[int(s) for s in k.split('-')] for k in year_month_keys}
         month_ranges = {k: calendar.monthrange(li[0], li[1])[1] for k,li in int_year_months.items()}
         # 各日の合計金額を算出
         day_exp_sum = dict(exp_df.groupby(['year_month', 'day'])['price'].sum())
