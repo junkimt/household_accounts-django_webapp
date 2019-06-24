@@ -5,6 +5,21 @@
 <br>
 月ごとに「毎日どれくらいお金を使っているか」，「費目ごとにどれくらいの割合でお金を使っているか」をグラフで表示したページを作成しました。
 
+## 使い方
+
+（db.sqlite3を読み込んでデモを実行します）
+
+MacOS/Linux用準備コマンド
+
+1. git clone https://github.com/junkimt/household_accounts-django_webapp
+2. cd household_accounts-django_webapp
+3. python3 -m venv kakeibo
+4. source kakeibo/bin/activate
+5. pip install -r requirements.txt
+6. python manage.py runserver
+7. ブラウザで`http://127.0.0.1:8000/about/`にアクセス
+
+
 ## 機能紹介
 
 ### トップページ
