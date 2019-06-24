@@ -27,7 +27,7 @@ SECRET_KEY = '_(u)&e-3076d7_a(gfhb85*)u-u4vwc%#qt7c7q3-t98%lvp&g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://household-accounts-app.herokuapp.com']
 
 # Application definition
 
