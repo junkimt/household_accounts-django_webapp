@@ -8,7 +8,6 @@ __pycache__
 *.pyc
 *.py[co]
 local_settings.py
-db.sqlite3
 env
 media
 migrations
