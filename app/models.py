@@ -24,7 +24,7 @@ class Item(models.Model):
     select_items = ['支出', '収入']
     select_items = tuple((s, s) for s in select_items)
     inc_or_exp = models.CharField(
-        verbose_name='費目',
+        verbose_name='収支',
         max_length=20,
         choices=select_items,
         blank=True,
