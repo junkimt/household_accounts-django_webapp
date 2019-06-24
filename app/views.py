@@ -18,7 +18,6 @@ from datetime import datetime
 import calendar
 from copy import deepcopy
 import pandas as pd
-import numpy as np
 
 
 # 未ログインのユーザーにアクセスを許可する場合は、LoginRequiredMixinを継承から外してください。
