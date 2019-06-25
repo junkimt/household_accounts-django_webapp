@@ -222,10 +222,21 @@ except ImportError:
     pass
 '''
 
+'''
 # https://qiita.com/ryosan-470/items/0034c85130928851ce72
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=400)
 DATABASES['default'].update(db_from_env)
+'''
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+STATIC_ROOT = 'staticfiles'
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 # Activate Django-Heroku.
 import django_heroku
