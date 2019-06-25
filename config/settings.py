@@ -212,7 +212,8 @@ import dj_database_url
 DATABASES['default'] = dj_database_url.config()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
-STATIC_ROOT = 'staticfiles'
+# https://qiita.com/saira/items/a1c565c4a2eace268a07
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEBUG = False
 try:
     from .local_settings import *
