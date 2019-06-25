@@ -163,7 +163,7 @@ class AboutView(TemplateView):
 
         # sqliteにクエリ送信しデータ取得
         dbname = 'db.sqlite3'
-        query = 'select * from app_item;'
+        query = "select * from app_item;"
         conn = sqlite3.connect(dbname)
         cursor = conn.cursor()
         cursor.execute(query)
