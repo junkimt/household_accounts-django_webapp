@@ -220,3 +220,8 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+
+#https://github.com/heroku/heroku-django-template/blob/master/project_name/settings.py#L137
+# Activate Django-Heroku.
+django_heroku.settings(locals())
