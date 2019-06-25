@@ -197,7 +197,7 @@ LOGGING = {
 ##################################
 #参考：https://qiita.com/okoppe8/items/76cdb202eb15aab566d1
 ##################################
-
+'''
 try:
     from .local_settings import *
 except ImportError:
@@ -220,3 +220,8 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+'''
+
+# Activate Django-Heroku.
+import django_heroku
+django_heroku.settings(locals())
