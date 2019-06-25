@@ -222,13 +222,10 @@ except ImportError:
     pass
 '''
 
-#https://yoshitaku-jp.hatenablog.com/entry/2018/06/17/155347
+# https://qiita.com/ryosan-470/items/0034c85130928851ce72
 import dj_database_url
-db_from_env = dj_database_url.config()
+db_from_env = dj_database_url.config(conn_max_age=400)
 DATABASES['default'].update(db_from_env)
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Activate Django-Heroku.
 import django_heroku
