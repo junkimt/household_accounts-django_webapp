@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #STATIC_DIR = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_DIR = os.path.join(BASE_DIR, 'app', 'staticfiles')
+STATIC_DIR = os.path.join(BASE_DIR, 'app', 'static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -214,7 +214,7 @@ DATABASES['default'] = dj_database_url.config()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 # https://qiita.com/saira/items/a1c565c4a2eace268a07
-STATIC_ROOT = os.path.join(BASE_DIR, 'app', 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'app', 'static')
 DEBUG = False
 try:
     from .local_settings import *
