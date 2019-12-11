@@ -89,7 +89,7 @@ MacOS/Linux用準備コマンド
 ## Requirement
 
 ```
-Django==2.1.2
+Django==2.1.15
 django-crispy-forms==1.7.2
 django-filter==2.0.0
 pytz==2018.5
